@@ -17,8 +17,15 @@ const CreateEventPage: React.FC = () => {
     setSubmitting(true);
     setError(null);
 
+    // --- THIS IS THE FIX ---
+    // 1. Get the API URL from the environment variable (for deployment)
+    //    or use localhost as a fallback (for local testing).
+    const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001';
+    // -----------------------
+
     try {
-      await axios.post('http://localhost:5001/api/events', {
+      // 2. Use the API_URL variable here
+      await axios.post(`${API_URL}/api/events`, {
         title,
         description,
         location,
@@ -32,6 +39,9 @@ const CreateEventPage: React.FC = () => {
       setSubmitting(false);
     }
   };
+
+  // ... all your style code remains exactly the same ...
+  // (containerStyle, cardStyle, titleStyle, etc.)
 
   const containerStyle: React.CSSProperties = {
     minHeight: '100vh',

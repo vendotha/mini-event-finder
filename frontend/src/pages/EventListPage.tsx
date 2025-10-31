@@ -25,7 +25,11 @@ const EventListPage: React.FC = () => {
     const fetchEvents = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:5001/api/events');
+        // 1. Get the API URL from the environment variable, but keep 'localhost:5001' as a backup for local testing.
+        const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001';
+
+        // 2. Use that API_URL variable in your axios call.
+        const response = await axios.get(`${API_URL}/api/events`);
         setEvents(response.data);
         setError(null);
       } catch (err) {

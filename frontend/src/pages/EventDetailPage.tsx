@@ -20,9 +20,16 @@ const EventDetailPage: React.FC = () => {
 
   useEffect(() => {
     const fetchEvent = async () => {
+      // --- THIS IS THE FIX ---
+      // 1. Get the API URL from the environment variable (for deployment)
+      //    or use localhost as a fallback (for local testing).
+      const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001';
+      // -----------------------
+      
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:5001/api/events/${id}`);
+        // 2. Use the API_URL variable here
+        const response = await axios.get(`${API_URL}/api/events/${id}`);
         setEvent(response.data);
         setError(null);
       } catch (err) {
@@ -35,6 +42,9 @@ const EventDetailPage: React.FC = () => {
 
     fetchEvent();
   }, [id]);
+
+  // ... all your style code remains exactly the same ...
+  // (containerStyle, cardStyle, titleStyle, etc.)
 
   const containerStyle: React.CSSProperties = {
     minHeight: '100vh',
